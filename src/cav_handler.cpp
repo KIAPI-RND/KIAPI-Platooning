@@ -6,9 +6,7 @@
 #include <cpp-framework/data/j2735.h>
 #include <cpp-framework/text/text_tool.h>
 #include <nr-v2x/nr_v2x_utils.h>
- 
-#define DEBUG_OPTION 0
-
+   
 cav_handler::cav_handler(int port):
 sock(this)
 {   
@@ -73,42 +71,7 @@ bool cav_handler::forward_lv_msg(uint64_t timestamp, uint32_t dev_id, uint32_t s
     ptr->sig_hazard = msg.stLvCan.bHazardEn;
  
     ptr->num_of_pathplane = index;
-
-    if (DEBUG_OPTION)
-    {
-        printf("header->msg_id = %d\n", header->msg_id);
-        printf("header->msg_seq = %u\n", header->msg_seq);
-        printf("header->time_stamp = %lu\n", header->time_stamp);
-        printf("header->msg_length = %u\n", header->msg_length);
-        printf("payload->tx_timestamp = %lu\n", ptr->tx_timestamp);
-        printf("payload->rx_timestamp = %lu\n", ptr->rx_timestamp);
-        printf("payload->device_id = %u\n", ptr->device_id);
-        printf("payload->msg_seq = %u\n", ptr->msg_seq);
-        printf("payload->vehicle_id = %s\n", ptr->vehicle_id);
-        printf("payload->vehicle_number = %s\n", ptr->vehicle_number);
-        printf("payload->vehicle_type = %d\n", ptr->vehicle_type);
-        printf("payload->lat = %d\n", ptr->lat);
-        printf("payload->lon = %d\n", ptr->lon);
-        printf("payload->elev = %d\n", ptr->elev);
-        printf("payload->speed = %d\n", ptr->speed);
-        printf("payload->heading = %d\n", ptr->heading);
-        printf("payload->accel_lat = %d\n", ptr->accel_lat);
-        printf("payload->accel_lon = %d\n", ptr->accel_lon);
-        printf("payload->yaw = %d\n", ptr->yaw);
-        printf("payload->brake_cylinder = %d\n", ptr->brake_cylinder);
-        printf("payload->sig_left = %d\n", ptr->sig_left);
-        printf("payload->sig_right = %d\n", ptr->sig_right);
-        printf("payload->sig_hazard = %d\n", ptr->sig_hazard);
-        printf("payload->num_of_pathplane = %d\n", ptr->num_of_pathplane);
-        for (int i = 0; i < ptr->num_of_pathplane; i++)
-        {
-            printf("payload->pathplane[%d].lat = %d \n", i, ptr->path_plane[i].lat);
-            printf("payload->pathplane[%d].lon = %d \n", i, ptr->path_plane[i].lon);
-        }
-
-        printf("hex = %s\n", string_to_hex(tmp).c_str());
-    }
-
+   
     return sock.send(tmp) > 0;
 }
 bool cav_handler::forward_fv_msg(uint64_t timestamp, uint32_t dev_id, uint32_t src, uint32_t msg_seq, const DB_V2X_PLATOONING_FV_T &msg,const v2x_parameter_field_t &param)
@@ -129,7 +92,7 @@ bool cav_handler::forward_fv_msg(uint64_t timestamp, uint32_t dev_id, uint32_t s
         tmp.append((char *)&path, sizeof(cav_path_plane_t));
         index++;
     } 
-    
+
     cav_msg_header_t *header = (cav_msg_header_t *)tmp.c_str();
 
     header->msg_id = 0x64;
@@ -165,40 +128,7 @@ bool cav_handler::forward_fv_msg(uint64_t timestamp, uint32_t dev_id, uint32_t s
     ptr->sig_hazard = msg.stFvCan.bHazardEn;
     
     ptr->num_of_pathplane = index;
-
-    if (DEBUG_OPTION)
-    {
-        printf("header->msg_id = %d\n", header->msg_id);
-        printf("header->msg_seq = %u\n", header->msg_seq);
-        printf("header->time_stamp = %lu\n", header->time_stamp);
-        printf("header->msg_length = %u\n", header->msg_length);
-        printf("payload->tx_timestamp = %lu\n", ptr->tx_timestamp);
-        printf("payload->rx_timestamp = %lu\n", ptr->rx_timestamp);
-        printf("payload->device_id = %u\n", ptr->device_id);
-        printf("payload->msg_seq = %u\n", ptr->msg_seq);
-        printf("payload->vehicle_id = %s\n", ptr->vehicle_id);
-        printf("payload->vehicle_number = %s\n", ptr->vehicle_number);
-        printf("payload->vehicle_type = %d\n", ptr->vehicle_type);
-        printf("payload->lat = %d\n", ptr->lat);
-        printf("payload->lon = %d\n", ptr->lon);
-        printf("payload->elev = %d\n", ptr->elev);
-        printf("payload->speed = %d\n", ptr->speed);
-        printf("payload->heading = %d\n", ptr->heading);
-        printf("payload->accel_lat = %d\n", ptr->accel_lat);
-        printf("payload->accel_lon = %d\n", ptr->accel_lon);
-        printf("payload->yaw = %d\n", ptr->yaw);
-        printf("payload->brake_cylinder = %d\n", ptr->brake_cylinder);
-        printf("payload->sig_left = %d\n", ptr->sig_left);
-        printf("payload->sig_right = %d\n", ptr->sig_right);
-        printf("payload->sig_hazard = %d\n", ptr->sig_hazard);
-        printf("payload->num_of_pathplane = %d\n", ptr->num_of_pathplane);
-        for (int i = 0; i < ptr->num_of_pathplane; i++)
-        {
-            printf("payload->pathplane[%d].lat = %d \n", i, ptr->path_plane[i].lat);
-            printf("payload->pathplane[%d].lon = %d \n", i, ptr->path_plane[i].lon);
-        } 
-        printf("hex = %s\n", string_to_hex(tmp).c_str());
-    }
+ 
 
     return sock.send(tmp) > 0;
 }

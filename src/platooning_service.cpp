@@ -11,10 +11,7 @@
 #include "utils.h" 
 #include <arpa/inet.h>
 #include <cpp-framework/common/endian.h>
- 
-#define DEBUG_PRINT 0
-
-
+   
 /// @brief 플래투닝 서비스 Init 
 /// @param psid 플래투닝 V2X 서비스 PSID 
 /// @param type 플래투닝 서비스 Roll Type 
@@ -136,25 +133,7 @@ bool platooning_service::rx_platooning_message(const std::string &payload)
     DB_V2X_T *ssov = (DB_V2X_T *)(payload.c_str());
   
     ssov->eServiceId = (DB_V2X_SERVICE_ID_E)(BE<uint32_t>(ssov->eServiceId).value >> 16);
-
-    if(DEBUG_PRINT)
-    {
-        log_print("ssov->eDeviceType = %x", ssov->eDeviceType);
-        log_print("ssov->eTeleCommType= %x", ssov->eTeleCommType);
-        log_print("ssov->unDeviceId= %x", ssov->unDeviceId);
-        log_print("ssov->ulTimeStamp= %llx", ssov->ulTimeStamp);
-        log_print("ssov->eServiceId= %x", ssov->eServiceId);
-        log_print("ssov->eActionType= %x", ssov->eActionType);
-        log_print("ssov->eRegionId= %x", ssov->eRegionId);
-        log_print("ssov->ePayloadType= %x", ssov->ePayloadType);
-        log_print("ssov->eCommId= %x", ssov->eCommId);
-        log_print("ssov->usDbVer= %x", ssov->usDbVer);
-        log_print("ssov->usHwVer= %x", ssov->usHwVer);
-        log_print("ssov->usSwVer= %x", ssov->usSwVer);
-        log_print("ssov->ulPayloadLength= %x", ssov->ulPayloadLength);
-        log_print("ssov->ulReserved= %x", ssov->ulReserved);
-    }
-
+ 
     if (ssov->eServiceId != DB_V2X_SERVICE_ID_PLATOONING) 
     {
         log_print("platooning_service, error = \"ssov header service id[%d] != DB_V2X_SERVICE_ID_PLATOONING\"", ssov->eServiceId);
