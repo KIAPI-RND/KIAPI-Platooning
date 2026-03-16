@@ -1,0 +1,97 @@
+
+ 원본 설정 값 
+
+telechips-tcc8050-sub:~$ ucfg get
+<User Configuration>
+Serial Number Information
+└── Serial Number: FOCHT23030001
+PC5 Configuration
+└── IPv4 Address: 0.0.0.0
+RF Configuration
+└── RF Tx Power(dBm): 20
+SL-BWP Configuration
+├── Frequency(MHz):         5915
+├── BandWidth(MHz):         20
+├── SubcarrierSpacing(kHz): 30
+├── StartSymbol:            0
+└── LengthSymbol:           14
+Subchannel of Resource Pool
+├── sizeSubchannel:     10
+├── NumSubchannel:      5
+└── StartRB-Subchannel: 0
+ResourceReservationPeriodList (count: 1)
+└── [0]: 0
+PSCCH Config
+├── TimeResourcePSCCH:      2
+└── FrequencyResourcePSCCH: 10
+PSSCH Config
+├── MCS table:     QAM64
+├── MCS index:     19
+└── MaxTxTransNum: 4
+PSFCH Config
+├── Period:     0
+└── MinTimeGap: 3
+HARQ Status
+└── HARQ Retransmission: 0(Disable)
+Antenna Configuration
+└── Antenna mode: 1(Ant 1 Tx/Rx)
+CC Status
+└── Congestion Control: 0(Disable)
+
+
+
+ucfg set dev pc5 ip 0 0 0 0
+ucfg set rf pow 20
+ucfg set rf block 0
+ucfg set freq 5895 20 30
+ucfg set bwp sym 0 14
+ucfg set rp sc 10 5 0
+ucfg set rp prd 0
+ucfg set pscch 2 10
+ucfg set pssch 0 8 4
+ucfg set psfch 0 3
+ucfg set harq 0
+ucfg set ant cfg 1
+ucfg set cc 0
+
+
+telechips-tcc8050-sub:~$ ucfg get
+<User Configuration>
+Serial Number Information
+└── Serial Number: SONNCHT23B002
+PC5 Configuration
+└── IPv4 Address: 0.0.0.0
+RF Configuration
+└── RF Tx Power(dBm): 20
+SL-BWP Configuration
+├── Frequency(MHz): 5895
+├── BandWidth(MHz): 20
+├── SubcarrierSpacing(kHz): 30
+├── StartSymbol: 0
+└── LengthSymbol: 14
+Subchannel of Resource Pool
+├── sizeSubchannel: 10
+├── NumSubchannel: 5
+└── StartRB-Subchannel: 0
+ResourceReservationPeriodList (count: 1)
+└── [0]: 0
+PSCCH Config
+├── TimeResourcePSCCH: 2
+└── FrequencyResourcePSCCH: 10
+PSSCH Config
+├── MCS table: QAM64
+├── MCS index: 1
+└── MaxTxTransNum: 4
+PSFCH Config
+├── Period: 0
+└── MinTimeGap: 3
+HARQ Status
+└── HARQ Retransmission: 0(Disable)
+Antenna Configuration
+└── Antenna mode: 1(Ant 1 Tx/Rx)
+CC Status
+└── Congestion Control: 0(Disable)
+
+
+
+
