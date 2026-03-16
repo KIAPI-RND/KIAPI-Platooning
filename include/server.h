@@ -49,6 +49,24 @@ public:
 protected:
     int on_sock_receive(int index, io_struct &sock);
     int on_sock_connection(int index, io_struct &sock, bool connected);
+
+    bool on_rx_msg(const std::string &tmp);
+    bool on_rx_lv_msg(const platooning_server_lv_msg_t &tmp);
+    bool on_rx_fv_msg(const platooning_server_fv_msg_t &tmp);
+
+private:
+    std::mutex lock;
+    std::map<uint32_t, rx_data_tmp_t> cache; 
+    tick_timer db_upate_tick;
+
+    sock_handler sock;
+    pq_handler pq;
+    thread_handler thread;
+
+    void progress_thread(void *argv);
+    bool insert_db(uint32_t id, const rx_data_tmp_t &val); 
+    bool update_db(uint32_t id, const rx_data_tmp_t &val); 
+
 }
 
 
