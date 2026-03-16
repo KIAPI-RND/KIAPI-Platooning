@@ -21,8 +21,8 @@ DEBUG = -O0 -g -Werror=return-type
 OBJ ?=  main.o obu_handler.o platooning_service.o utils.o
 OBJS = $(patsubst %,$(BDIR)/%,$(OBJ))             
 
-INCLUDE += -I $(INCDIR) -I ../../cpp-framework/include/ -I ../libnr-v2x/include/ -I ../../dgd-sock/include/
-LIB ?= -L ../../cpp-framework/$(BDIR)/ -L ../libnr-v2x/$(BDIR)/ -L ../../dgd-sock/$(BDIR)/ -ldgd-sock -lnr-v2x -lcpp-framework -pthread
+INCLUDE += -I $(INCDIR) -I ./cpp-framework/include/ -I ./libnr-v2x/include/ -I ./dgd-sock/include/
+LIB ?= -L ./cpp-framework/$(BDIR)/ -L ./libnr-v2x/$(BDIR)/ -L ./dgd-sock/$(BDIR)/ -ldgd-sock -lnr-v2x -lcpp-framework -pthread
     
 all : app  
  
