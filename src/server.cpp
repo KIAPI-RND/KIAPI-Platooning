@@ -55,7 +55,8 @@ int server_handler::on_sock_receive(int index, io_struct &sock)
 }
 
 int server_handler::on_sock_connection(int index, io_struct &sock, bool connected)
-{ 
+{
+    printf("sock !! connection = %d\n", connected);
     return 0;
 }
 
@@ -75,7 +76,27 @@ bool server_handler::on_rx_msg(const std::string &tmp)
 
 bool server_handler::on_rx_lv_msg(const platooning_server_lv_msg_t &tmp)
 {
- 
+
+    local_lock l(lock);
+
+    if (cache[tmp.src_dev_id].tick < tmp.timestamp ||
+        (cache[tmp.src_dev_id].timestamp + 1000) < get_epoch_time_msec())
+    {
+        cache[tmp.src_dev_id].lv = tmp.msg;
+        cache[tmp.src_dev_id].type = PLATOONING_SERVER_LV_MSG;
+        cache[tmp.src_dev_id].tick = tmp.timestamp;
+        cache[tmp.src_dev_id].timestamp = get_epoch_time_msec();
+        printf("lv update %d \n", tmp.src_dev_id);
+    }
+
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].tick = get_epoch_time_msec();
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].id = tmp.rx_dev_id;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].latency = tmp.rx.latency;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].per = tmp.rx.per;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].prr = tmp.rx.prr;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].rcpi = tmp.rx.rcpi;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].rssi = tmp.rx.rssi;
+    cache[tmp.src_dev_id].update = true;
 
     return true;
 }
@@ -83,7 +104,26 @@ bool server_handler::on_rx_lv_msg(const platooning_server_lv_msg_t &tmp)
 bool server_handler::on_rx_fv_msg(const platooning_server_fv_msg_t &tmp)
 {
 
-     
+    local_lock l(lock);
+
+    if (cache[tmp.src_dev_id].tick < tmp.timestamp ||
+        (cache[tmp.src_dev_id].timestamp + 1000) < get_epoch_time_msec())
+    {
+        cache[tmp.src_dev_id].fv = tmp.msg;
+        cache[tmp.src_dev_id].type = PLATOONING_SERVER_FV_MSG;
+        cache[tmp.src_dev_id].tick = tmp.timestamp;
+        cache[tmp.src_dev_id].timestamp = get_epoch_time_msec();
+        printf("fv update %d \n", tmp.src_dev_id);
+    }
+
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].tick = get_epoch_time_msec();
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].id = tmp.rx_dev_id;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].latency = tmp.rx.latency;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].per = tmp.rx.per;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].prr = tmp.rx.prr;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].rcpi = tmp.rx.rcpi;
+    cache[tmp.src_dev_id].rx_status[tmp.rx_dev_id].rssi = tmp.rx.rssi;
+    cache[tmp.src_dev_id].update = true;
 
     return true;
 }
@@ -105,28 +145,4 @@ bool server_handler::insert_db(uint32_t id, const rx_data_tmp_t &val)
 void progress_thread(void *argv)
 {
   
-}
- 
-pq_db_config_t db_config;
- 
-int main(int argc, char **argv)
-{
-    printf("platooning broker service running !\n");
- 
-    server_handler sock(NR_PLATOONING_SERVER_BIND_PORT);
-
-    db_config.ip = "192.168.200.3";
-    db_config.port = 5432;
-    db_config.id = "postgres";
-    db_config.pw = "kiapi12!@";
-    db_config.name = "v2xmonitoring";
-
-    sock.set_db(db_config);
-
-    while (true)
-    { 
-        sleep_for(1000); 
-    }
-  
-    return 0;
 }
