@@ -1,0 +1,26 @@
+[2025-09-29 19:52:48.562] [info] [RX] FV Message [60001] -> [0], RCPI[44].RSSI[-57] 35647175000000.000000, 128400866666666.671875
+header->msg_id = 100
+header->msg_seq = 14
+header->time_stamp = 1759143168562
+header->msg_length = 95
+payload->tx_timestamp = 1759143168562
+payload->rx_timestamp = 2025092499665371769    # epoch time으로 변경 예정
+payload->device_id = 60001
+payload->msg_seq = 0
+payload->vehicle_id = 2
+payload->vehicle_number = 269N7610
+payload->vehicle_type = 2
+payload->lat = 356471750
+payload->lon = 1284008666
+payload->elev = 0
+payload->speed = 333
+payload->heading = 10960
+payload->accel_lat = 0
+payload->accel_lon = 0
+payload->yaw = 0
+payload->brake_cylinder = 0
+payload->sig_left = 0
+payload->sig_right = 0
+payload->sig_hazard = 0
+payload->num_of_pathplane = 0
+hex = 640e5f000000328a1a9599010000328a1a959901000079c2dc27e6921a1c61ea000000000000320000000000000000003236394e3736313000000000000000000000000002c6533f15da6a884c000000004d01d02a000000000000000000000000000000000000000000000000
