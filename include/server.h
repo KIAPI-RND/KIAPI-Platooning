@@ -65,8 +65,7 @@ private:
 
     void progress_thread(void *argv);
     bool insert_db(uint32_t id, const rx_data_tmp_t &val); 
-    bool update_db(uint32_t id, const rx_data_tmp_t &val); 
-
+    bool update_db(uint32_t id, const rx_data_tmp_t &val);  
 }
 
 

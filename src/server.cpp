@@ -23,3 +23,110 @@ void server_handler::set_db(pq_db_config_t config)
 {
     pq.connect(config);
 }
+
+int server_handler::on_sock_receive(int index, io_struct &sock)
+{
+    int res = 0;
+
+    while (true)
+    {
+        if (sock.buffer.size() < sizeof(nr_v2x_msg_header_t))
+            break;
+
+        nr_v2x_msg_header_t *header = (nr_v2x_msg_header_t *)sock.buffer.c_str();
+
+        int size = header->length + sizeof(nr_v2x_msg_header_t);
+
+        if (size > sock.buffer.size())
+            break;
+
+        std::string tmp;
+
+        tmp.append(sock.buffer.c_str(), size);
+
+        on_rx_msg(tmp);
+
+        sock.buffer.erase(0, size);
+
+        res += size;
+    }
+
+    return res;
+}
+
+int server_handler::on_sock_connection(int index, io_struct &sock, bool connected)
+{ 
+    return 0;
+}
+
+bool server_handler::on_rx_msg(const std::string &tmp)
+{
+    nr_v2x_msg_header_t *header = (nr_v2x_msg_header_t *)tmp.c_str();
+
+    switch (header->payload_id)
+    {
+    case PLATOONING_SERVER_LV_MSG:
+        return on_rx_lv_msg(*((platooning_server_lv_msg_t *)tmp.c_str()));
+    case PLATOONING_SERVER_FV_MSG:
+        return on_rx_fv_msg(*((platooning_server_fv_msg_t *)tmp.c_str()));
+    }
+    return true;
+}
+
+bool server_handler::on_rx_lv_msg(const platooning_server_lv_msg_t &tmp)
+{
+ 
+
+    return true;
+}
+
+bool server_handler::on_rx_fv_msg(const platooning_server_fv_msg_t &tmp)
+{
+
+     
+
+    return true;
+}
+
+bool server_handler::update_db(uint32_t id, const rx_data_tmp_t &val)
+{
+    
+
+    return true;
+}
+
+bool server_handler::insert_db(uint32_t id, const rx_data_tmp_t &val)
+{
+     
+
+    return true;
+}
+
+void progress_thread(void *argv)
+{
+  
+}
+ 
+pq_db_config_t db_config;
+ 
+int main(int argc, char **argv)
+{
+    printf("platooning broker service running !\n");
+ 
+    server_handler sock(NR_PLATOONING_SERVER_BIND_PORT);
+
+    db_config.ip = "192.168.200.3";
+    db_config.port = 5432;
+    db_config.id = "postgres";
+    db_config.pw = "kiapi12!@";
+    db_config.name = "v2xmonitoring";
+
+    sock.set_db(db_config);
+
+    while (true)
+    { 
+        sleep_for(1000); 
+    }
+  
+    return 0;
+}
