@@ -1,3 +1,9 @@
+/*
+ * Project : KIAPI cpp-framework
+ * Author: WooChang Seo (wcseo@kiapi.or.kr) 
+ * Date: 2025-10-04
+ */  
+
 #ifndef _CPP_COMMON_TIME_H_
 #define _CPP_COMMON_TIME_H_
 

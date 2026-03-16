@@ -1,3 +1,9 @@
+/*
+ * Project : KIAPI-Platooning
+ * Author: WooChang Seo (wcseo@kiapi.or.kr) 
+ * Date: 2025-08-29
+ */  
+
 #include "cav_handler.h" 
 #include "cav_msg.h"
 #include <cpp-framework/common/time.h>

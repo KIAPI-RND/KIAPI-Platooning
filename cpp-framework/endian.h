@@ -1,3 +1,9 @@
+/*
+ * Project : KIAPI cpp-framework
+ * Author: WooChang Seo (wcseo@kiapi.or.kr) 
+ * Date: 2025-10-04
+ */  
+
 #ifndef _ENDIAN_H_H____
 #define _ENDIAN_H_H____
 

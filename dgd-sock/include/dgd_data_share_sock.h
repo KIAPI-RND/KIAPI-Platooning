@@ -1,3 +1,10 @@
+/*
+ * Project : KIAPI dgd-sock
+ * Author: WooChang Seo (wcseo@kiapi.or.kr) 
+ * Date: 2025-08-29
+ */  
+
+
 #ifndef _DGD_DATA_SHARE_SOCK_H_
 #define _DGD_DATA_SHARE_SOCK_H_
 
